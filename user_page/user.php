@@ -19,15 +19,33 @@
 
         $form_email = $_POST['email_addr'];
         $form_pass = $_POST['password'];
-        $query = 'SELECT * from user where email_addr=\''.$form_email.'\' and password=\''.$form_pass.'\';';
+        $query = "SELECT * from user where email_addr='{$form_email}' and password='{$form_pass}';";
         $result = $connection->query($query);
         if($result->num_rows > 0){
-            $user_row = $result->fetch_assoc()
-            ?><h2>Welcome, dear <?= $user_row['first_name']?>!</h2><?php
+            $user = $result->fetch_assoc()
+            ?><h2>Welcome, dear <?= $user['first_name']?>! Your user id is <span id='user-id'><?= $user['id']?></span></h2><?php
         }else{
             ?><h2 style='color:rgb(255,0,0);'>Error: incorrect e-mail or password. <a href='../login_page/login.php'>Try again</a> or <a href='../signup_page/signup.php'> create an account</a></h2><?php
+            ?><?= $query?><?php
             die();
         }
     ?>
+    <script>
+        function showCreated(){
+            let user_id = document.getElementById('user-id').innerHTML;
+            let xml_request = new XMLHttpRequest();
+            xml_request.onreadystatechange = function(){
+                if(this.readyState==4 && this.status == 200){
+                    document.getElementById('button-res').innerHTML = this.responseText;
+                }
+            };
+            xml_request.open("GET",'./event_handler.php?user_id='+user_id,true);
+            xml_request.send();
+        }
+    </script>
+    <div><button onclick=showCreated()>Show created events</button><button onclick=showAvailable()>Show available events</button></div>
+    <div id='button-res'>
+
+    </div>
 </body>
 </html>
