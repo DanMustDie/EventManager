@@ -20,7 +20,7 @@
         $form_lname = $_POST['last_name'];
         $form_email = $_POST['email_addr'];
         $form_pass = $_POST['password'];
-        $id = uniqid();
+        $id = uniqid('a');
 
         $select_query = "SELECT * from user where email_addr='{$form_email}' and password='{$form_pass}'";
         $insert_query = "INSERT INTO user (`first_name`, `last_name`, `email_addr`, `password`, `id`) VALUES ('{$form_fname}','{$form_lname}','{$form_email}','{$form_pass}','{$id}')";
