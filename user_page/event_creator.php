@@ -11,7 +11,7 @@
 ?>
 <?php
     #get params from POST request
-    $event_name = $_POST['event_name'];
+    $event_name = $_REQUEST['event_name'];
     $event_type = $_POST['event_type'];
     $date_start = $_POST['date_start'];
     $date_end = $_POST['date_end'];
@@ -19,17 +19,14 @@
     $time_end = $_POST['time_end'];
     $entry_price = $_POST['entry_price'];
     $location = $_POST['location'];
-    $description =  $_POST['description'];
+    $description =  isset($_POST['description']) ? $_POST['description'] : NULL;
     $creator_id = $_POST['creator_id'];
     $event_id = uniqid('e');
- 
-    #create query
-    $insert_query = "INSERT INTO `event`(`event_name`, `event_type`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) 
-    VALUES ('{$event_name}','{$event_type}','{$date_start}','{$date_end}','{$time_start}','{$time_end}','{$entry_price}','{$location}','{$description}','{$creator_id}','{$event_id}')
-    "
+    
+    $insert_query = "INSERT INTO `event`(`event_name`, `event_type`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES ('{$event_name}','{$event_type}','{$date_start}','{$date_end}','{$time_start}','{$time_end}','{$entry_price}','{$location}','{$description}','{$creator_id}','{$event_id}')";
     if($connection->query($insert_query) == TRUE){
-        echo "<p>Event created succesfully :></p>"
+        echo "<p>Event created succesfully :></p>";
     }else{
-        echo "<p>Oops something went wrong :<</p>"
+        echo "<p>Oops something went wrong :<</p>";
     }
 ?>

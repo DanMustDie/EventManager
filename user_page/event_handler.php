@@ -12,12 +12,12 @@
 <?php
     #get params from GET request
     $user_id = $_GET['user_id'];
-    $by_user = (bool) $_GET['by_user'];
+    $by_user = $_GET['by_user'];
     if($by_user){ #if events created by user
         $select_query = "SELECT event_name from event where creator_id='{$user_id}'";
         $error_m = "<p>Sorry, you haven`t created an event yet :< </p>";
     }else{ #if events NOT created by user
-        $select_query = "SELECT event_name from event not where creator_id='{$user_id}'";
+        $select_query = "SELECT event_name from event where not creator_id='{$user_id}'";
         $error_m = "<p>Sorry, no available events yet :< </p>";
     }
 

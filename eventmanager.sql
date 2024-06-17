@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: localhost
--- Время создания: Июн 17 2024 г., 17:27
--- Версия сервера: 10.4.28-MariaDB
--- Версия PHP: 8.2.4
+-- Хост: 127.0.0.1
+-- Время создания: Июн 18 2024 г., 01:02
+-- Версия сервера: 10.4.32-MariaDB
+-- Версия PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `event` (
   `event_name` varchar(20) NOT NULL,
-  `event_type_id` tinyint(100) NOT NULL,
+  `event_type` varchar(20) NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
   `time_start` time(5) NOT NULL,
@@ -40,6 +40,13 @@ CREATE TABLE `event` (
   `creator_id` varchar(14) NOT NULL,
   `event_id` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `event`
+--
+
+INSERT INTO `event` (`event_name`, `event_type`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
+('My BDay', 'Birthday', '2024-06-18', '2024-06-18', '00:58:00.00000', '00:58:00.00000', '12.24', 'Lwowska 24', '', 'a66702f7110c49', 'e6670bfe9dea40');
 
 -- --------------------------------------------------------
 
