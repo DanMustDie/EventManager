@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event creating page</title>
+</head>
+<body>
+    <script>
+        let create_button = document.getElementById('create')
+        create_button.addEventListener('onclick',() => {
+            let form_data = document.querySelectorAll('input')
+            console.log(form_data)
+        })
+    </script>
+    <form action="">
+        <div><label for="event_name">Event name: </label><input  id="event_name" name="event_name" type='text'/></div>
+        <div><label for="event_type">Event type: </label><input id='event_type' name='event_type' type='text'/></div>
+        <div><label for="date_start">Start date: </label><input id='date_start' name='date_start' type='date'/></div>
+        <div><label for="date_end">End date: </label><input id='date_end' name='date_end' type='date'/></div>
+        <div><label for="time_start">Starting time: </label><input id='time_start' name='time_start' type='time'/></div>
+        <div><label for="time_end">Ending time: </label><input id='time_end' name='time_end' type='time'/></div>
+        <div><label for="entry_price">Ticket price: </label><input id='entry_price' name='entry_price' type='text'/>$</div>
+        <div><label for="location">Location: </label><input id='location' name='location' type='text'/></div>
+        <div><label for="description">Event description: </label><textarea id="description" name="description"></textarea></div>
+        <div><input id='create' type="button" onclick=createEvent()></div>
+        <div id="server_result"></div>
+    </form>
+</body>
+</html>

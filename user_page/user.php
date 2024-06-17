@@ -31,7 +31,7 @@
         }
     ?>
     <script>
-        function showCreated(){
+        function showCreated(by_user){
             let user_id = document.getElementById('user-id').innerHTML;
             let xml_request = new XMLHttpRequest();
             xml_request.onreadystatechange = function(){
@@ -39,11 +39,11 @@
                     document.getElementById('button-res').innerHTML = this.responseText;
                 }
             };
-            xml_request.open("GET",'./event_handler.php?user_id='+user_id,true);
+            xml_request.open("GET",'./event_handler.php?user_id='+user_id+'&'+'by_user='+ by_user,true);
             xml_request.send();
         }
     </script>
-    <div><button onclick=showCreated()>Show created events</button><button onclick=showAvailable()>Show available events</button></div>
+    <div><button onclick=showCreated(true)>Show created events</button><button onclick=showCreated(false)>Show available events</button> <a targer="_blank" href='./create_event.html'><button>Create your event!</button></a> </div>
     <div id='button-res'>
 
     </div>
