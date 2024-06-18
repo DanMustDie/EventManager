@@ -33,8 +33,8 @@
             echo $by_user ? "<li id='{$row['event_id']}'><b>{$row['event_name']}</b><button onclick=deleteEvent(event)>Delete your event</button></li>" : "<li><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b></li>";
         }
     }elseif(isset($_POST['creator_id'])){ #check if POST request was sent 
-        $event_name = $_REQUEST['event_name'];
-        $event_type = $_POST['event_type'];
+        $event_name = $_POST['event_name'];
+        $event_type_id = $_POST['event_type_id'];
         $date_start = $_POST['date_start'];
         $date_end = $_POST['date_end'];
         $time_start = $_POST['time_start'];
@@ -45,7 +45,7 @@
         $creator_id = $_POST['creator_id'];
         $event_id = uniqid('e');
         
-        $insert_query = "INSERT INTO `event`(`event_name`, `event_type`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES ('{$event_name}','{$event_type}','{$date_start}','{$date_end}','{$time_start}','{$time_end}','{$entry_price}','{$location}','{$description}','{$creator_id}','{$event_id}')";
+        $insert_query = "INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES ('{$event_name}','{$event_type_id}','{$date_start}','{$date_end}','{$time_start}','{$time_end}','{$entry_price}','{$location}','{$description}','{$creator_id}','{$event_id}')";
         if($connection->query($insert_query) == TRUE){
             echo "<p>Event created succesfully :></p>";
         }else{
