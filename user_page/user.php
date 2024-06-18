@@ -53,7 +53,7 @@
             xml_request.send(data)
         }
     </script>
-    <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a targer="_blank" href=<?= './create_event.php?creator_id='.$user['id']?>><button>Create your event!</button></a> </div>
+    <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href=<?= './create_event.php?creator_id='.$user['id']?>><button>Create your event!</button></a> </div>
     <ol id='button-res'></ol>
     <span id='server-response'></span>
 </body>
