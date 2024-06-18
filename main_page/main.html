@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='./main.css'/>
+    <title>Main page</title>
+</head>
+<body>
+    <h1 id='app-title'>EventManager</h1>
+    <h3 id='description'>Welcome to EventManager event management (duh) web-app! <br/> <span id='sign-up' style='color:red;'>Sign up</span> or <span id='log-in' style='color:green;'>log in</span> to begin</h3>
+    <div>
+    <form id='main-form' action='../user_page/user.php' method='post'>
+        <div class='signing-up'><label for='first_name'>First name: </label></label><input type='text' name='first_name' value='Jan'/></div>
+        <div class='signing-up'><label for='last_name'>Last name: </label><input type='text' name='last_name' value='Kowalski'/></div>
+        <div class='logging-in'><label for='email_addr'>E-mail: </label><input type='email' name='email_addr' value='jk@example.org' /></div>
+        <div class='logging-in'><label for='password'>Password: </label><input type='password' name='password' value='123456'/></div>
+        <input type='button' value='Sign up'>
+    </form>
+    <div id='server-response'></div>
+    <script>
+        //Get basic nodes
+        let sign_up_span = document.getElementById('sign-up')
+        let log_in_span = document.getElementById('log-in')
+        let signing_up_divs = document.getElementsByClassName('signing-up')
+        let submit_button = document.querySelector("input[type='button']")
+        let server_response = document.getElementById('server-response')
+        let main_form = document.getElementById('main-form')
+        let form_state = 'sign-up'
+        //Create function for submitting new account
+        let submit_new_account = () => {
+            let input_divs = document.querySelectorAll('div.signing-up input, div.logging-in input')
+            let data = ''
+            for(let inp of input_divs){
+                data += inp.name + '=' + inp.value
+                data += '&'
+            }
+            data += 'form_state='+form_state
+
+            let xml_request = new XMLHttpRequest();
+            xml_request.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    if(this.responseText.includes('Error')){
+                        server_response.innerText = this.responseText
+                    }else{
+                        main_form.submit()
+                    }
+                }
+            }
+            xml_request.open('POST','./account_server.php')
+            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded');  
+            xml_request.send(data)
+        }
+        submit_button.onclick = submit_new_account
+
+        //Create function to change form fields
+        let change_form_function = (event) => {
+            let signup_or_login = event.target.id == 'sign-up'
+            let display_value = signup_or_login ? 'block' : 'none'
+            let submit_button_value = signup_or_login ? 'Sign up' : 'Log in'
+            for(let div of signing_up_divs){
+                div.style.display = display_value
+            }
+            submit_button.value = submit_button_value
+            signup_or_login ? form_state = 'sign-up' : form_state = 'log-in'
+        }
+        //Set onclick event function 
+        log_in_span.onclick = sign_up_span.onclick = change_form_function
+
+        
+        
+    </script>
+</body>
+</html>
