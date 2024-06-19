@@ -18,8 +18,9 @@
         $result = $connection->query($query);
         if($result->num_rows > 0){
             $user = $result->fetch_assoc();
-            $_SESSION['creator_id'] = $user['id'];
             echo "<h2>Welcome, dear {$user['first_name']}!Go back to <a href='http://{$_SERVER['HTTP_HOST']}/EventManager/main_page/main.php?option=log-in'>log in</a></h2>";
+        }else{
+            header('Location: http://'.$_SERVER['HTTP_HOST'].'/main_page/main.php');
         }
     ?>
 <!DOCTYPE html>
@@ -56,6 +57,12 @@
             xml_request.open('POST','./event_server.php')
             xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
             xml_request.send(data)
+        }
+
+        function generateTicket(event){
+            let user_id = '<?= $_SESSION['user_id']?>'
+            let event_id = event.target.parentNode.id
+            console.log('user id: ' + user_id,'event id: ' + event_id)
         }
     </script>
     <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href='./create_event.php'><button>Create your event!</button></a> </div>

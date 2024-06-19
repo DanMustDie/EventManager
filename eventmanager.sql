@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июн 19 2024 г., 00:01
+-- Время создания: Июн 20 2024 г., 01:23
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -41,6 +41,14 @@ CREATE TABLE `event` (
   `event_id` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Дамп данных таблицы `event`
+--
+
+INSERT INTO `event` (`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
+('DZEvent', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a66735c47777ce', 'e66735c53d18ad'),
+('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e667360afa2b63');
+
 -- --------------------------------------------------------
 
 --
@@ -57,14 +65,12 @@ CREATE TABLE `event_type` (
 --
 
 INSERT INTO `event_type` (`et_id`, `et_name`) VALUES
-(0, 'Other'),
-(1, 'Arts'),
-(2, 'Trade'),
-(3, 'Economics'),
-(4, 'Politics'),
-(5, 'Ecology'),
-(6, 'Medical'),
-(7, 'Entertainment');
+(8, 'Other'),
+(9, 'Arts'),
+(10, 'Business'),
+(11, 'Economics'),
+(12, 'Ecology'),
+(13, 'Medicine');
 
 -- --------------------------------------------------------
 
@@ -76,7 +82,7 @@ CREATE TABLE `user` (
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `email_addr` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `id` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -85,8 +91,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`first_name`, `last_name`, `email_addr`, `password`, `id`) VALUES
-('Jan', 'Kowalski', 'jk@example.org', '123456', 'a66717cff09e65'),
-('Daniil', 'Zelik', 'dz@example.org', '123456', 'a66717d1a96c66');
+('Jan', 'Kowalski', 'jk@example.org', '$2y$10$cfGhY78NFxcmm7C56CgyNOZI2w2v9iJ7Y4p0osquWreWjJKL0zIYS', 'a667311ac544b1'),
+('Daniil', 'Zelik', 'dz@example.org', '$2y$10$OMIAyYD4rvnGLD6e1hBJru3NkdHi5wLI.OJt1gEI7UoSnxmAcCHOq', 'a66735c47777ce');
 
 --
 -- Индексы сохранённых таблиц
@@ -120,7 +126,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `event_type`
 --
 ALTER TABLE `event_type`
-  MODIFY `et_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `et_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -20,7 +20,7 @@
             $select_query = "SELECT event_name,event_id from event where creator_id='{$user_id}'";
             $error_m = "<p>Sorry, you haven`t created an event yet :< </p>";
         }else{ #if events NOT created by user
-            $select_query = "SELECT event.event_name,user.first_name,user.last_name from event inner join user on event.creator_id = user.id where not creator_id='{$user_id}'";
+            $select_query = "SELECT event.event_name,user.first_name,user.last_name,event.event_id from event inner join user on event.creator_id = user.id where not creator_id='{$user_id}'";
             $error_m = "<p>Sorry, no available events yet :< </p>";
         }
 
@@ -31,7 +31,7 @@
             die();
         }
         while($row = $result->fetch_assoc()){
-            echo $by_user ? "<li id='{$row['event_id']}'><b>{$row['event_name']}</b><button onclick=deleteEvent(event)>Delete your event</button></li>" : "<li><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b></li>";
+            echo $by_user ? "<li id='{$row['event_id']}'><b>{$row['event_name']}</b><button onclick=deleteEvent(event)>Delete your event</button></li>" : "<li id='{$row['event_id']}'><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b> <button onclick='generateTicket(event)'>Order ticket</button></li>";
         }
     }else{
         $delete_id = $_POST['delete_id'];
