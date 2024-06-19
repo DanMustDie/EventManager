@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    
     #setup connection to server
     $db_server = 'localhost';
     $db_uname = 'root';
@@ -20,8 +22,7 @@
     <title>Event creating page</title>
 </head>
 <body>
-    <span id='creator-id-span' style='display:none;'><?= $_GET['creator_id']?></span>
-    <form id='create-event-form' action="">
+    <form id='create-event-form' action="" method='POST'>
         <div>
             <label for="event_name">Event name: </label>
             <input id="event_name" name="event_name" type='text' value='EName' required/>
@@ -64,34 +65,29 @@
             <label for="description">Event description: </label>
             <textarea id="description" name="description"></textarea>
         </div>
-        <div><input id='create' type="button" value='Create'></div>
-        <div id="server_result"></div>
+        <div><input id='create' type="submit" value='Create'></div>
     </form>
-    <script>
-        let create_button = document.getElementById('create')
-        let res = document.getElementById('server_result')
-        let url = './event_server.php'
-        create_button.addEventListener('click',(event) =>{
-            let inputs = document.querySelectorAll('div label+*')
-            let post_data = ''
-            for(let i = 0; i < inputs.length; i++){
-                if(inputs[i].value != ''){
-                    let str = inputs[i].id + '=' + inputs[i].value + '&'
-                    post_data+=str
-                }
+    <?php
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $event_name = $_POST['event_name'];
+            $event_type_id = $_POST['event_type_id'];
+            $date_start = $_POST['date_start'];
+            $date_end = $_POST['date_end'];
+            $time_start = $_POST['time_start'];
+            $time_end = $_POST['time_end'];
+            $entry_price = $_POST['entry_price'];
+            $location = $_POST['location'];
+            $description =  isset($_POST['description']) ? $_POST['description'] : NULL;
+            $creator_id = $_SESSION['creator_id'];
+            $event_id = uniqid('e');
+            $insert_stmt = $connection->prepare("INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            $insert_stmt->bind_param("sisssssssss",$event_name,$event_type_id,$date_start,$date_end,$time_start,$time_end,$entry_price,$location,$description,$creator_id,$event_id);
+            if($insert_stmt->execute()){
+                echo 'Event created successfully! Go back to <a href="./user.php">user page</a>';
+            }else{
+                echo 'An unknown error has occured.';
             }
-            post_data+='creator_id='+ document.getElementById('creator-id-span').innerText
-            console.log(inputs[1].id + inputs[1].value)
-            let xml_request = new XMLHttpRequest();
-            xml_request.onreadystatechange = function () {               
-                if(this.readyState == 4 && this.status == 200 ){
-                    res.innerHTML = this.responseText;
-                }
-            };
-            xml_request.open('POST',url)
-            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
-            xml_request.send(post_data)
-        } )
-    </script>
+        }       
+    ?>
 </body>
 </html>
