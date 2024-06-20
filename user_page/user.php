@@ -64,22 +64,53 @@
             let user_id = '<?= $_SESSION['user_id']?>'
             let event_id = event.target.parentNode.id
             let xml_request = new XMLHttpRequest()
-            let data = 'event_id='+event_id +'&'+'guest_id='+user_id
-            let tickets = document.getElementById('tickets')
+            let data = 'event_id='+event_id +'&'+'guest_id='+user_id  
             xml_request.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
-                    tickets.innerHTML += this.responseText
+                    showTickets();
                 }
             }
             xml_request.open('POST','./ticket_server.php')
             xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
             xml_request.send(data)
-            
+        }
+
+        function showTickets(){
+            let user_id = '<?= $_SESSION['user_id']?>';
+            let xml_request = new XMLHttpRequest()
+            let data = 'guest_id='+user_id
+            let tickets = document.getElementById('tickets')
+            xml_request.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    tickets.innerHTML = this.responseText
+                }
+            }
+            xml_request.open('POST','./ticket_server.php')
+            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            xml_request.send(data)
+        }
+
+        function returnTicket(event){
+            let ticket_id = event.target.parentNode.id
+            let xml_request = new XMLHttpRequest()
+            xml_request.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    document.getElementById('server-response').innerText = this.responseText;
+                    showTickets();
+                }
+            }
+            xml_request.open('POST','./ticket_server.php')
+            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            xml_request.send('ticket_id='+ticket_id)
         }
     </script>
     <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href='./create_event.php'><button>Create your event!</button></a> </div>
     <ol id='button-res'></ol>
     <ul id='tickets'></ul>
     <span id='server-response'></span>
+    <script>
+        showTickets();
+        showCreated(0);
+    </script>
 </body>
 </html>
