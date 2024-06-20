@@ -17,10 +17,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='./create_event.css'/>
     <title>Event creating page</title>
 </head>
 <body>
     <form id='create-event-form' action="" method='POST'>
+        <h2>Create your event: </h2>
         <div>
             <label for="event_name">Event name: </label>
             <input id="event_name" name="event_name" type='text' value='EName' required/>
@@ -64,8 +66,7 @@
             <textarea id="description" name="description"></textarea>
         </div>
         <div><input id='create' type="submit" value='Create'></div>
-    </form>
-    <?php
+        <?php
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $event_name = $_POST['event_name'];
             $event_type_id = $_POST['event_type_id'];
@@ -81,11 +82,12 @@
             $insert_stmt = $connection->prepare("INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             $insert_stmt->bind_param("sisssssssss",$event_name,$event_type_id,$date_start,$date_end,$time_start,$time_end,$entry_price,$location,$description,$creator_id,$event_id);
             if($insert_stmt->execute()){
-                echo 'Event created successfully! Go back to <a href="./user.php">user page</a>';
+                echo '<span><p>Event created successfully!</p><p>Go back to <a href="./user.php">user page</a></p></span>';
             }else{
-                echo 'An unknown error has occured.';
+                echo '<span>An unknown error has occured.</span>';
             }
         }       
     ?>
+    </form>
 </body>
 </html>

@@ -1,0 +1,21 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(128,128,128);
+}
+
+h2{
+    margin:0;
+}
+
+form{
+    padding: 2%;
+    margin:auto auto;
+    width:fit-content;
+    background-color:rgb(180,180,180);
+}
+form > *{
+    margin:2%;
+}

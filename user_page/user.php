@@ -1,5 +1,16 @@
 <?php
-        session_start();
+    session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='./user.css'/>
+    <title>User page</title>
+</head>
+<body>
+    <?php
         $db_server = 'localhost';
         $db_uname = 'root';
         $db_upass = '';
@@ -9,7 +20,7 @@
             echo "Connection to db was successfull";
         }
         if(!$_SESSION['email'] | !$_SESSION['password']){
-            echo "<h1 style='color:red;'>Error no log-in information provided Go back to <a href='http://{$_SERVER['HTTP_HOST']}/EventManager/main_page/main.php?option=log-in'>log in</a></h1>";
+            echo "<h2 style='color:red;'>Error no log-in information provided Go back to <a href='http://{$_SERVER['HTTP_HOST']}/EventManager/main_page/main.php?option=log-in'>log in</a></h2>";
         }
         $form_email = $_SESSION['email'];
         $form_pass = $_SESSION['password'];
@@ -18,27 +29,17 @@
         if($result->num_rows > 0){
             $user = $result->fetch_assoc();
             $_SESSION['user_id'] = $user['id'];
-            echo "<h2>Welcome, dear {$user['first_name']}!Go back to <a href='http://{$_SERVER['HTTP_HOST']}/EventManager/main_page/main.php?option=log-in'>log in</a></h2>";
+            echo "<h2 id='welcome'>- Welcome, dear {$user['first_name']}</h2>";
         }else{
             header('Location: http://'.$_SERVER['HTTP_HOST'].'/main_page/main.php');
         }
     ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='user.css'/>
-    <title>User page</title>
-</head>
-<body>
-    
     <script>
         function showCreated(by_user){
             let xml_request = new XMLHttpRequest()
             xml_request.onreadystatechange = function(){
                 if(this.readyState==4 && this.status == 200){
-                    document.getElementById('button-res').innerHTML = this.responseText
+                    document.getElementById('created-events').innerHTML = this.responseText
                 }
             };
 
@@ -117,9 +118,23 @@
             xml_request.send(event.target.parentNode.className+'_id' + '=' + id)
         }
     </script>
-    <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href='./create_event.php'><button>Create your event!</button></a> </div>
-    <ol id='button-res'></ol>
-    <ul id='tickets'></ul>
+    <nav>
+        <button onclick=showCreated(1)>Show created events</button>
+        <button onclick=showCreated(0)>Show available events</button>
+        <a href='./create_event.php'><button>Create your event</button></a>
+        <a href='http://<?=$_SERVER['HTTP_HOST']?>/EventManager/main_page/main.php'><button>Back to main page</button></a>
+    </nav>
+    <div id='main-content'>
+        <div>
+            <span>List of events:</span>
+            <ol id='created-events'></ol>
+        </div>
+        <div>
+            <span>Your booked tickets:</span>
+            <ul id='tickets'>
+            </ul>
+        </div>
+    </div>
     <span id='server-response'></span>
     <script>
         showTickets();

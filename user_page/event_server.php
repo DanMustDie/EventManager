@@ -31,7 +31,7 @@
             die();
         }
         while($row = $result->fetch_assoc()){
-            echo $by_user ? "<li class='event' id='{$row['event_id']}'><b>{$row['event_name']}</b><button onclick=deleteEvent(event)>Delete your event</button><button onclick=showGuests(event)>Show guests</button></li>" : "<li class='event' id='{$row['event_id']}'><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b> <button onclick='generateTicket(event)'>Order ticket</button><button onclick=showGuests(event)>Show guests</button></li>";
+            echo $by_user ? "<li class='event' id='{$row['event_id']}'><span><b>{$row['event_name']}</b></span><button onclick=deleteEvent(event)>Delete your event</button><button onclick=showGuests(event)>Show guests</button></li>" : "<li class='event' id='{$row['event_id']}'><span><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b> </span><button onclick='generateTicket(event)'>Order ticket</button><button onclick=showGuests(event)>Show guests</button></li>";
         }
     }else{
         $delete_id = $_POST['delete_id'];

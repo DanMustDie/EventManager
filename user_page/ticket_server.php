@@ -12,7 +12,7 @@
     function ticketTemplate($tid,$en,$ds,$ts,$de,$te,$tp){
         return "<div class='ticket' id='$tid'>".
                 "<h2>A ticket to '$en' event</h2>".
-                "<h3>Starts on $ds to $de</h3>".
+                "<h3>Starts on $ds and ends in $de</h3>".
                 "<h4>Venue is open from $ts until $te </h4>".
                 "<h4>Total entry cost: $tp $</h4>".
                 "<button onclick=returnTicket(event)>Return ticket</button>".
@@ -46,7 +46,7 @@
         $get_tickets_query = "SELECT * FROM `ticket` inner join `user` on `ticket`.guest_id = `user`.id inner join `event` on `ticket`.`event_id` = `event`.`event_id` where `ticket`.guest_id='$user_id'";
         $res = $connection->query($get_tickets_query);
         while($row = $res->fetch_assoc()){
-            echo ticketTemplate($row['ticket_id'],$row['event_name'],$row['date_start'],$row['time_start'],$row['date_end'],$row['time_end'],$row['entry_price']);
+            echo ticketTemplate($row['ticket_id'],$row['event_name'],$row['date_start'],substr($row['time_start'],0,5),$row['date_end'],substr($row['time_end'],0,5),$row['entry_price']);
         }
     }
     
