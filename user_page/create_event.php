@@ -1,6 +1,5 @@
 <?php
     session_start();
-    
     #setup connection to server
     $db_server = 'localhost';
     $db_uname = 'root';
@@ -10,7 +9,6 @@
     if(!$connection){
         echo "Connection to db was successfull";
     }
-
     $select_query='select * from event_type';
     $result = $connection->query($select_query);  
 ?>
@@ -78,7 +76,7 @@
             $entry_price = $_POST['entry_price'];
             $location = $_POST['location'];
             $description =  isset($_POST['description']) ? $_POST['description'] : NULL;
-            $creator_id = $_SESSION['creator_id'];
+            $creator_id = $_SESSION['user_id'];
             $event_id = uniqid('e');
             $insert_stmt = $connection->prepare("INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             $insert_stmt->bind_param("sisssssssss",$event_name,$event_type_id,$date_start,$date_end,$time_start,$time_end,$entry_price,$location,$description,$creator_id,$event_id);

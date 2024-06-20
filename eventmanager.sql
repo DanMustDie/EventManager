@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июн 20 2024 г., 01:23
+-- Время создания: Июн 20 2024 г., 13:07
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -47,7 +47,8 @@ CREATE TABLE `event` (
 
 INSERT INTO `event` (`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
 ('DZEvent', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a66735c47777ce', 'e66735c53d18ad'),
-('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e667360afa2b63');
+('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e667360afa2b63'),
+('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e66740823c9f3e');
 
 -- --------------------------------------------------------
 
@@ -71,6 +72,25 @@ INSERT INTO `event_type` (`et_id`, `et_name`) VALUES
 (11, 'Economics'),
 (12, 'Ecology'),
 (13, 'Medicine');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `ticket`
+--
+
+CREATE TABLE `ticket` (
+  `guest_id` varchar(14) NOT NULL,
+  `event_id` varchar(14) NOT NULL,
+  `ticket_id` varchar(14) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Дамп данных таблицы `ticket`
+--
+
+INSERT INTO `ticket` (`guest_id`, `event_id`, `ticket_id`) VALUES
+('a667311ac544b1', 'e66735c53d18ad', 't66740c9d4bdcc');
 
 -- --------------------------------------------------------
 
@@ -113,6 +133,14 @@ ALTER TABLE `event_type`
   ADD PRIMARY KEY (`et_id`);
 
 --
+-- Индексы таблицы `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`ticket_id`),
+  ADD KEY `fk_guest_id` (`guest_id`),
+  ADD KEY `fk_event_id` (`event_id`);
+
+--
 -- Индексы таблицы `user`
 --
 ALTER TABLE `user`
@@ -139,6 +167,13 @@ ALTER TABLE `event`
   ADD CONSTRAINT `FK_creator_id` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `event_FK_creator_id` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `fk_et_id` FOREIGN KEY (`event_type_id`) REFERENCES `event_type` (`et_id`);
+
+--
+-- Ограничения внешнего ключа таблицы `ticket`
+--
+ALTER TABLE `ticket`
+  ADD CONSTRAINT `fk_event_id` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`),
+  ADD CONSTRAINT `fk_guest_id` FOREIGN KEY (`guest_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

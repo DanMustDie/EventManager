@@ -13,11 +13,11 @@
         }
         $form_email = $_SESSION['email'];
         $form_pass = $_SESSION['password'];
-        
         $query = "SELECT * from user where email_addr='{$form_email}';";
         $result = $connection->query($query);
         if($result->num_rows > 0){
             $user = $result->fetch_assoc();
+            $_SESSION['user_id'] = $user['id'];
             echo "<h2>Welcome, dear {$user['first_name']}!Go back to <a href='http://{$_SERVER['HTTP_HOST']}/EventManager/main_page/main.php?option=log-in'>log in</a></h2>";
         }else{
             header('Location: http://'.$_SERVER['HTTP_HOST'].'/main_page/main.php');
@@ -41,7 +41,8 @@
                     document.getElementById('button-res').innerHTML = this.responseText
                 }
             };
-            xml_request.open("GET",'./event_server.php?user_id='+'<?= $_SESSION['creator_id']?>'+'&'+'by_user='+ by_user,true)
+
+            xml_request.open("GET",'./event_server.php?user_id='+'<?= $_SESSION['user_id']?>'+'&'+'by_user='+ by_user,true)
             xml_request.send()
         }
 
@@ -62,11 +63,23 @@
         function generateTicket(event){
             let user_id = '<?= $_SESSION['user_id']?>'
             let event_id = event.target.parentNode.id
-            console.log('user id: ' + user_id,'event id: ' + event_id)
+            let xml_request = new XMLHttpRequest()
+            let data = 'event_id='+event_id +'&'+'guest_id='+user_id
+            let tickets = document.getElementById('tickets')
+            xml_request.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    tickets.innerHTML += this.responseText
+                }
+            }
+            xml_request.open('POST','./ticket_server.php')
+            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            xml_request.send(data)
+            
         }
     </script>
     <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href='./create_event.php'><button>Create your event!</button></a> </div>
     <ol id='button-res'></ol>
+    <ul id='tickets'></ul>
     <span id='server-response'></span>
 </body>
 </html>
