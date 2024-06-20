@@ -10,12 +10,13 @@
     }    
 
     function ticketTemplate($tid,$en,$ds,$ts,$de,$te,$tp){
-        return "<div id='$tid'>".
+        return "<div class='ticket' id='$tid'>".
                 "<h2>A ticket to '$en' event</h2>".
                 "<h3>Starts on $ds to $de</h3>".
                 "<h4>Venue is open from $ts until $te </h4>".
                 "<h4>Total entry cost: $tp $</h4>".
                 "<button onclick=returnTicket(event)>Return ticket</button>".
+                "<button onclick=showGuests(event)>Show guests</button>".
                 "</div>";
     }
 

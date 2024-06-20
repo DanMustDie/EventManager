@@ -103,6 +103,19 @@
             xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
             xml_request.send('ticket_id='+ticket_id)
         }
+        function showGuests(event){
+            let id = event.target.parentNode.id
+            let xml_request = new XMLHttpRequest()
+            xml_request.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    document.getElementById('server-response').innerHTML = this.responseText;
+                }
+            }
+            xml_request.open('POST','./guests_server.php')
+            xml_request.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+            console.log(event.target.parentNode.className)
+            xml_request.send(event.target.parentNode.className+'_id' + '=' + id)
+        }
     </script>
     <div><button onclick=showCreated(1)>Show created events</button><button onclick=showCreated(0)>Show available events</button> <a href='./create_event.php'><button>Create your event!</button></a> </div>
     <ol id='button-res'></ol>
