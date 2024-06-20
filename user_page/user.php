@@ -68,6 +68,7 @@
             let data = 'event_id='+event_id +'&'+'guest_id='+user_id  
             xml_request.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
+                    document.getElementById('server-response').innerHTML = this.responseText
                     showTickets();
                 }
             }

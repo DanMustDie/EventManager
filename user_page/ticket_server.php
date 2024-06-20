@@ -27,6 +27,16 @@
         $event_id = $_POST['event_id'];
         $user_id = $_POST['guest_id'];
 
+        $max_query = "SELECT count(*) as `count`,max_guests from `event` inner join `ticket` on `event`.event_id = `ticket`.event_id where `ticket`.event_id='{$event_id}' group by `ticket`.event_id;";
+        $res = $connection->query($max_query);
+        $row = $res->fetch_assoc();
+        if(isset($row['count'])){
+            if((int) $row['count'] + 1 > $row['max_guests']){
+                echo "<p>Sorry no available tickets</p>";
+                die();
+            }
+        }
+
         $check_query = "SELECT * from `ticket` where event_id='{$event_id}' and guest_id='{$user_id}'";
         $check_result = $connection->query($check_query);
         if($check_result->num_rows>0){

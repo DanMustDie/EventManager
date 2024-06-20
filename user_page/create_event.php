@@ -54,6 +54,10 @@
             <input id='time_end' name='time_end' type='time' value='12:00' required/>
         </div>
         <div>
+            <label for="max_guests">Maximum guests allowed: </label>
+            <input id='max_guests' name='max_guests' value='100' type='number' required/>$
+        </div>
+        <div>
             <label for="entry_price">Ticket price: </label>
             <input id='entry_price' name='entry_price' value='12.24' type='text' required/>$
         </div>
@@ -74,13 +78,14 @@
             $date_end = $_POST['date_end'];
             $time_start = $_POST['time_start'];
             $time_end = $_POST['time_end'];
+            $max_guests = $_POST['max_guests'];
             $entry_price = $_POST['entry_price'];
             $location = $_POST['location'];
             $description =  isset($_POST['description']) ? $_POST['description'] : NULL;
             $creator_id = $_SESSION['user_id'];
             $event_id = uniqid('e');
-            $insert_stmt = $connection->prepare("INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            $insert_stmt->bind_param("sisssssssss",$event_name,$event_type_id,$date_start,$date_end,$time_start,$time_end,$entry_price,$location,$description,$creator_id,$event_id);
+            $insert_stmt = $connection->prepare("INSERT INTO `event`(`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`,`max_guests`,`entry_price`, `location`,`description`, `creator_id`, `event_id`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            $insert_stmt->bind_param("sissssisssss",$event_name,$event_type_id,$date_start,$date_end,$time_start,$time_end,$max_guests,$entry_price,$location,$description,$creator_id,$event_id);
             if($insert_stmt->execute()){
                 echo '<span><p>Event created successfully!</p><p>Go back to <a href="./user.php">user page</a></p></span>';
             }else{

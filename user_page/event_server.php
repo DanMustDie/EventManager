@@ -35,8 +35,12 @@
         }
     }else{
         $delete_id = $_POST['delete_id'];
-        $delete_query = "DELETE from `event` where event_id='{$delete_id}'";
-        $connection->query($delete_query); 
+        $delete_event_query = "DELETE from `event` where event_id='{$delete_id}'";
+        $delete_tickets_query = "DELETE from `ticket` where event_id='{$delete_id}'";
+        $connection->query($delete_tickets_query); 
+        $connection->query($delete_event_query);
+        
+
     }
     
 ?>
