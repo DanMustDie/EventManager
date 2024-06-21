@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июн 21 2024 г., 00:54
+-- Время создания: Июн 21 2024 г., 09:15
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -42,13 +42,6 @@ CREATE TABLE `event` (
   `event_id` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Дамп данных таблицы `event`
---
-
-INSERT INTO `event` (`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `max_guests`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
-('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', 100, '12.24', 'somewhere', '', 'a667311ac544b1', 'e6674ab294b8c1');
-
 -- --------------------------------------------------------
 
 --
@@ -83,13 +76,6 @@ CREATE TABLE `ticket` (
   `event_id` varchar(14) NOT NULL,
   `ticket_id` varchar(14) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Дамп данных таблицы `ticket`
---
-
-INSERT INTO `ticket` (`guest_id`, `event_id`, `ticket_id`) VALUES
-('a6674a5baceab1', 'e6674ab294b8c1', 't6674afd60735e');
 
 -- --------------------------------------------------------
 
