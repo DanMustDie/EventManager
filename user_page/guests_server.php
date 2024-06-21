@@ -18,10 +18,12 @@
     }
     $select_guest = "SELECT first_name,last_name from `ticket` inner join `user` on `user`.id = `ticket`.guest_id inner join `event` on `event`.event_id = `ticket`.event_id where `ticket`.event_id = '$event_id'";
         $res = $connection->query($select_guest);
+        echo "<div>";
         echo "<p>List of guests: </p>";
         echo "<ul>";
         while($row = $res->fetch_assoc()){
             echo "<li>{$row['first_name']} {$row['last_name']}</li>";
         }
         echo "</ul>";
+        echo "</div>";
 ?>

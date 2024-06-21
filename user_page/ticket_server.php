@@ -6,7 +6,7 @@
     $db_name = 'eventmanager';
     $connection = new mysqli($db_server,$db_uname,$db_upass,$db_name);
     if(!$connection){
-        echo "Connection to db was successfull";
+        echo "Connection to db was unsuccessfull";
     }    
 
     function ticketTemplate($tid,$en,$ds,$ts,$de,$te,$tp){
@@ -32,7 +32,7 @@
         $row = $res->fetch_assoc();
         if(isset($row['count'])){
             if((int) $row['count'] + 1 > $row['max_guests']){
-                echo "<p>Sorry no available tickets</p>";
+                echo "<span>Sorry no available tickets</span>";
                 die();
             }
         }
@@ -40,7 +40,7 @@
         $check_query = "SELECT * from `ticket` where event_id='{$event_id}' and guest_id='{$user_id}'";
         $check_result = $connection->query($check_query);
         if($check_result->num_rows>0){
-            echo "You already have a ticket for this event.";
+            echo "<span>You already have a ticket for this event.</span>";
             die();
         }
         $connection->query("INSERT INTO `ticket`(`guest_id`,`event_id`,`ticket_id`) values ('$user_id','$event_id','$ticket_id')");
@@ -49,7 +49,7 @@
         $ticket_id = $_POST['ticket_id']; 
         $delete_query = "DELETE from `ticket` where ticket_id='$ticket_id'";
         if($connection->query($delete_query)){
-            echo 'deleted successfully';
+            echo '<span>Ticket has been deleted successfully</span>';
         }
     }elseif(isset($_POST['guest_id']) & !isset($_POST['ticket_id']) & !isset($_POST['event_id'])){
         $user_id = $_POST['guest_id'];

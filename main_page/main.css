@@ -2,12 +2,54 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color: rgb(161,201,52);
+}
+
 body > *{
-    margin:0 auto;
+    margin:1% auto;
+}
+
+body div{
     width:fit-content;
+}
+body div > *{
+    padding:0.5vw;
+    width: 100%;
 }
 
 h1,h3{
-    text-align: left;
-    background-color: aquamarine;
+    margin:0;
+    text-align: center;
+    background-color:rgb(200,200,200);
+}
+
+#main-form{
+    width:max-content;
+    background-color:rgb(200,200,200);
+}
+#main-form > *{
+    margin:2% 0;
+}
+
+#server-response{
+    background-color: darkslateblue;
+    padding-bottom:1vw;
+}
+
+#server-response > *{
+    display:block;
+}
+
+#server-response span:first-child{
+    color: rgb(255,255,255);
+}
+
+#server-response span:last-child{
+    background-color: rgb(255,255,255);
+    color:rgb(0,0,0);
+    border-radius: 5px;
+    border-width: 2px;
+    box-shadow:0 5px rgb(180,180,180);
+    min-height:1em;
 }

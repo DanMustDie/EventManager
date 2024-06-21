@@ -20,7 +20,7 @@
             $select_query = "SELECT event_name,event_id from event where creator_id='{$user_id}'";
             $error_m = "<p>Sorry, you haven`t created an event yet :< </p>";
         }else{ #if events NOT created by user
-            $select_query = "SELECT event.event_name,user.first_name,user.last_name,event.event_id from event inner join user on event.creator_id = user.id where not creator_id='{$user_id}'";
+            $select_query = "SELECT event.event_name,user.first_name,user.last_name,event.event_id,event.max_guests,event.description from event inner join user on event.creator_id = user.id where not creator_id='{$user_id}'";
             $error_m = "<p>Sorry, no available events yet :< </p>";
         }
 
@@ -31,7 +31,27 @@
             die();
         }
         while($row = $result->fetch_assoc()){
-            echo $by_user ? "<li class='event' id='{$row['event_id']}'><span><b>{$row['event_name']}</b></span><button onclick=deleteEvent(event)>Delete your event</button><button onclick=showGuests(event)>Show guests</button></li>" : "<li class='event' id='{$row['event_id']}'><span><b>{$row['event_name']}</b> : from creator <b>{$row['first_name']} {$row['last_name']}</b> </span><button onclick='generateTicket(event)'>Order ticket</button><button onclick=showGuests(event)>Show guests</button></li>";
+            if($by_user){
+                echo "<li class='event' id='{$row['event_id']}'><span><b>{$row['event_name']}</b></span><button onclick=deleteEvent(event)>Delete your event</button><button onclick=showGuests(event)> Show guests</button></li>";
+            }else{
+                $at_query = "SELECT count(*) as `count` from `event` inner join `ticket` on `event`.event_id = `ticket`.event_id where `ticket`.event_id='{$row['event_id']}' group by `ticket`.event_id;";
+                $at_res = $connection->query($at_query);
+                $at_row = $at_res->fetch_assoc();
+                if(isset($at_row)){
+                    $count = $at_row['count'];
+                }else{
+                    $count = 0;
+                }
+                $at = $row['max_guests'] - $count;
+                
+                echo "<li class='event' id='{$row['event_id']}'>".
+                        "<span>".
+                            "<b>{$row['event_name']}</b> :from creator <b>{$row['first_name']} {$row['last_name']}</b>".
+                            "</span><span>Available tickets: $at</span>".
+                            "<span>Description: <br/> ".(isset($row['description']) ? $row['description'] : 'no description')."</span>".
+                            "<button onclick='generateTicket(event)'>Order ticket</button>".
+                            "<button onclick=showGuests(event)>Show guests</button></li>";
+            }
         }
     }else{
         $delete_id = $_POST['delete_id'];

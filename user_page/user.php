@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='./user.css'/>
+    <link rel='stylesheet' href='./user.css?v=<?php echo time(); ?>'/>
     <title>User page</title>
 </head>
 <body>
@@ -70,6 +70,7 @@
                 if(this.readyState == 4 && this.status == 200){
                     document.getElementById('server-response').innerHTML = this.responseText
                     showTickets();
+                    showCreated(0);
                 }
             }
             xml_request.open('POST','./ticket_server.php')
@@ -97,8 +98,9 @@
             let xml_request = new XMLHttpRequest()
             xml_request.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
-                    document.getElementById('server-response').innerText = this.responseText;
+                    document.getElementById('server-response').innerHTML = this.responseText;
                     showTickets();
+                    showCreated(0);
                 }
             }
             xml_request.open('POST','./ticket_server.php')
@@ -125,6 +127,7 @@
         <a href='./create_event.php'><button>Create your event</button></a>
         <a href='http://<?=$_SERVER['HTTP_HOST']?>/EventManager/main_page/main.php'><button>Back to main page</button></a>
     </nav>
+    <div id='server-response'></div>
     <div id='main-content'>
         <div>
             <span>List of events:</span>
@@ -136,7 +139,6 @@
             </ul>
         </div>
     </div>
-    <span id='server-response'></span>
     <script>
         showTickets();
         showCreated(0);

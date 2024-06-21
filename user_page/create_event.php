@@ -17,7 +17,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='./create_event.css'/>
+    <link rel='stylesheet' href='./create_event.css?v=<?php echo time(); ?>'/>
     <title>Event creating page</title>
 </head>
 <body>

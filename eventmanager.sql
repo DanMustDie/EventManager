@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Июн 20 2024 г., 13:07
+-- Время создания: Июн 21 2024 г., 00:54
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `event` (
   `date_end` date NOT NULL,
   `time_start` time(5) NOT NULL,
   `time_end` time(5) NOT NULL,
+  `max_guests` int(100) NOT NULL,
   `entry_price` varchar(7) NOT NULL,
   `location` varchar(30) NOT NULL,
   `description` text DEFAULT NULL,
@@ -45,10 +46,8 @@ CREATE TABLE `event` (
 -- Дамп данных таблицы `event`
 --
 
-INSERT INTO `event` (`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
-('DZEvent', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a66735c47777ce', 'e66735c53d18ad'),
-('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e667360afa2b63'),
-('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', '12.24', 'somewhere', '', 'a667311ac544b1', 'e66740823c9f3e');
+INSERT INTO `event` (`event_name`, `event_type_id`, `date_start`, `date_end`, `time_start`, `time_end`, `max_guests`, `entry_price`, `location`, `description`, `creator_id`, `event_id`) VALUES
+('EName', 8, '2024-01-01', '2024-01-01', '11:00:00.00000', '12:00:00.00000', 100, '12.24', 'somewhere', '', 'a667311ac544b1', 'e6674ab294b8c1');
 
 -- --------------------------------------------------------
 
@@ -90,7 +89,7 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`guest_id`, `event_id`, `ticket_id`) VALUES
-('a667311ac544b1', 'e66735c53d18ad', 't66740c9d4bdcc');
+('a6674a5baceab1', 'e6674ab294b8c1', 't6674afd60735e');
 
 -- --------------------------------------------------------
 
@@ -112,7 +111,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`first_name`, `last_name`, `email_addr`, `password`, `id`) VALUES
 ('Jan', 'Kowalski', 'jk@example.org', '$2y$10$cfGhY78NFxcmm7C56CgyNOZI2w2v9iJ7Y4p0osquWreWjJKL0zIYS', 'a667311ac544b1'),
-('Daniil', 'Zelik', 'dz@example.org', '$2y$10$OMIAyYD4rvnGLD6e1hBJru3NkdHi5wLI.OJt1gEI7UoSnxmAcCHOq', 'a66735c47777ce');
+('Daniil', 'Zelik', 'dz@example.org', '$2y$10$OMIAyYD4rvnGLD6e1hBJru3NkdHi5wLI.OJt1gEI7UoSnxmAcCHOq', 'a66735c47777ce'),
+('Dima', 'Vasylchuk', 'dv@example.org', '$2y$10$PkwEJER7l8/7ilpas8oLOOsMvO47uk9PJ4ZmGXEXJtP/NW/rCw9pq', 'a6674a5712484f'),
+('Stepan', 'Rudiak', 'sr@example.org', '$2y$10$soeGEReAKD0.i6m9uwZCvuX19rmN/MNzTQG6azYBptfcy1YDIE57y', 'a6674a5baceab1');
 
 --
 -- Индексы сохранённых таблиц
